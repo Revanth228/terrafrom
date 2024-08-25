@@ -1,24 +1,20 @@
 resource "aws_instance" "db"{
-    ami  = "ami-041e2ea9402c46c32"
-    instance_type = "t2.micro"
+    ami  = var.image_id
+    instance_type = var.instance_type
      vpc_security_group_ids = [aws_security_group.allow_shh.id]
 
-    tags={
-        Name = "db"
-       
-    }
+    tags= var.tags
 
 }
 
 resource "aws_security_group" "allow_shh"{
-    name= "allow_shh"
-    description= "allowing ssh access"
+    name= var.sg_name
+    description= var.sg_description
     
-    #below one considered as a block
     ingress {
-        from_port        = 22
-        to_port          = 22
-        protocol         = "tcp"
+        from_port        = var.ssh_port
+        to_port          = var.ssh_port
+        protocol         = var.protocol
         cidr_blocks      = ["0.0.0.0/0"]
     }
 

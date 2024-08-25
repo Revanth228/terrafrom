@@ -2,13 +2,17 @@ resource "aws_instance" "db"{
     ami  = "ami-041e2ea9402c46c32"
     instance_type = "t2.micro"
      vpc_security_group_ids = [aws_security_group.allow_shh.id]
+    #  count = 3
+    count= length(var.instance_names)
 
     tags={
-        Name = "db"
+        Name = var.instance_names[count.index]
        
     }
 
 }
+
+
 
 resource "aws_security_group" "allow_shh"{
     name= "allow_shh"
@@ -34,4 +38,5 @@ resource "aws_security_group" "allow_shh"{
         CreatedBy = "Revanth"
     }
 }
+
 
